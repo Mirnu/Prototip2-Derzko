@@ -8,9 +8,11 @@ public class Lever : KeyInteractable {
 
     private SpriteRenderer _spriteRenderer;
 
-    private void Awake() {
+    private void Start() {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        onInteractAction += log;
+        onInteractAction += delegate { 
+            FindObjectOfType<Player>().PrintHeadText("Lorem Impsum", 2f); 
+        };
     }
     void log() {
         Debug.Log("Interacted /w: " + name);

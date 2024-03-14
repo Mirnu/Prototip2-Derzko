@@ -23,5 +23,8 @@ public class KeyInteractable : Interactable
         InteractionStart();
         onInteractAction?.Invoke();
         InteractEnd();
+
+        //Чтобы взаимодествия несколько раз не вызывались
+        Handler.PressedKey -= KeyDown;
     }
 }
