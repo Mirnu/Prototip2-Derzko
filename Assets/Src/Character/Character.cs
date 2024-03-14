@@ -12,6 +12,7 @@ public class Character : MonoBehaviour
 
     public Rigidbody2D Rigidbody { get; private set; }
     public event Action<Collision2D> CollisionEnter;
+
     public BoxCollider2D Collider { get; private set; }
     private IHandler _handler;
     
