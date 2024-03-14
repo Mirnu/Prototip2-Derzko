@@ -15,9 +15,9 @@ public class Player : MonoBehaviour
 
     private bool isPrinting = false;
 
-    public void PrintHeadText(string textToPrint, float waitTime) {
+    public void PrintHeadText(TextScriptableObject obj) {
         if(!isPrinting) {
-            StartCoroutine(PrintText(textToPrint, waitTime));
+            StartCoroutine(PrintText(obj.Text, obj.TextPopupSpeed));
         }
         isPrinting = false;
     }

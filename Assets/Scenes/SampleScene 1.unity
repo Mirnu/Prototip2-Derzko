@@ -519,6 +519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   leverStates: []
+  text: {fileID: 11400000, guid: 18f6970a1ac474ab9bb23a06ed5687fe, type: 2}
 --- !u!61 &863772753
 BoxCollider2D:
   m_ObjectHideFlags: 0
