@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class DuckState : MovementState
 {
-    public DuckState(CharacterStateMachine characterStateMachine) : base(characterStateMachine) {}
+    public DuckState(CharacterStateMachine characterStateMachine) : base(characterStateMachine) 
+    {
+        TransitionState = TransitionState.Exclude;
+        PossibleTransitions.Add(CharacterStateMachine.RunState);
+    }
 
     private float _speed = 0.5f;
 

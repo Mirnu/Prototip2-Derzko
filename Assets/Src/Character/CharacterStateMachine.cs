@@ -15,6 +15,7 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
     public WalkState WalkState { get; private set; }
     public JumpState JumpState { get; private set; }
     public DuckState DuckState {  get; private set; }
+    public StairState StairState { get; private set; }
 
     public new IHandler Handler { get; private set; }
 
@@ -28,6 +29,7 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
         WalkState = new WalkState(this);
         JumpState = new JumpState(this);
         DuckState = new DuckState(this);
+        StairState = new StairState(this);
     }
 
     public void Initialize() => Initialize(IdleState);
@@ -42,8 +44,7 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
 
     public bool ChangeState(MovementState newState)
     {
-        if (newState == CurrentState) return false;   
-        if (!CurrentState.Exit()) return false;
+        if (!checkOnPossibilityChanged(newState)) return false;
         if (!newState.Enter())
         {
             CurrentState.Enter();
@@ -52,6 +53,23 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
         LastState = CurrentState;
         CurrentState = newState;
         Debug.Log($"Current new State: {CurrentState}");
+        return true;
+    }
+
+    private bool checkOnPossibilityChanged(MovementState newState)
+    {
+        if (!checkOnTransition(newState)) return false;
+        return  newState != CurrentState &&
+            CurrentState.Exit();
+    }
+
+    private bool checkOnTransition(MovementState newState)
+    {
+        if (CurrentState.TransitionState == TransitionState.Include &&
+            !CurrentState.PossibleTransitions.Contains(newState)) return false;
+        else if (CurrentState.TransitionState == TransitionState.Exclude &&
+            CurrentState.PossibleTransitions.Contains(newState)) return false;
+        
         return true;
     }
 }

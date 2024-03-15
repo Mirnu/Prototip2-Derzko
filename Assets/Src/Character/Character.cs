@@ -8,7 +8,7 @@ using Zenject;
 
 public class Character : MonoBehaviour
 {
-    private CharacterStateMachine _characterStateMachine;
+    public CharacterStateMachine _characterStateMachine { get; private set; }
 
     public Rigidbody2D Rigidbody { get; private set; }
     public event Action<Collision2D> CollisionEnter;
@@ -47,6 +47,8 @@ public class Character : MonoBehaviour
 
     private void KeyDown(KeyCode keyCode)
     {
+        if (Input.GetAxisRaw("Vertical") != 0)
+            _characterStateMachine.ChangeState(_characterStateMachine.StairState);
         if (keyCode == KeyCode.Space)
         {
             _characterStateMachine.ChangeState(_characterStateMachine.JumpState);

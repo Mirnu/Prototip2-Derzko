@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class IdleState : MovementState
 {
-    public IdleState(CharacterStateMachine characterStateMachine) :
-        base(characterStateMachine) { }
+    public IdleState(CharacterStateMachine characterStateMachine) : base(characterStateMachine) 
+    {
+        TransitionState = TransitionState.All;
+    }
 
     public override bool Enter()
     {
