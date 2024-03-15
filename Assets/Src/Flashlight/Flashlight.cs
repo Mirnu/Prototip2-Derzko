@@ -1,18 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
+using Zenject;
 
 public class Flashlight : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private FlashlightStateMachine _flashlightStateMachine;
+    private IHandler _handler;
+
+    [Inject]
+    public void Construct(IHandler handler)
     {
-        
+        _handler = handler;
+        _flashlightStateMachine = new FlashlightStateMachine(this, _handler);
+        _flashlightStateMachine.Initialize();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        Debug.Log(_handler);
+        _handler.PressedKey += KeyDown;
+
+    }
+
+    private bool isFlash = true;
+    private bool isActive = false;
+    public void KeyDown(KeyCode key)
+    {
+        if (key == KeyCode.F)
+        {
+            if (isActive) _flashlightStateMachine.ChangeState(_flashlightStateMachine.unabledState);
+            else _flashlightStateMachine.ChangeState(_flashlightStateMachine.flashState);
+            isActive = !isActive;
+        }
+        else if (key == KeyCode.Q)
+        {
+            if (isActive)
+            {
+                if (isFlash) _flashlightStateMachine.ChangeState(_flashlightStateMachine.darkState);
+                else _flashlightStateMachine.ChangeState(_flashlightStateMachine.flashState);
+                isFlash = !isFlash;
+            }         
+        }
+    }
+
+    private void Update()
+    {
+        _flashlightStateMachine.Tick();
+    }
+
+    private void OnDestroy()
+    {
+        _handler.PressedKey -= KeyDown;
     }
 }
