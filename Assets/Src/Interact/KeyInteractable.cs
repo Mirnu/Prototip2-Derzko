@@ -7,13 +7,13 @@ public class KeyInteractable : Interactable
 {
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.TryGetComponent(out Character character)) {
-            Handler.PressedKey += KeyDown;
+            Handler.PressedKeyDown += KeyDown;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         if(other.TryGetComponent(out Character character)) {
-            Handler.PressedKey -= KeyDown;
+            Handler.PressedKeyDown -= KeyDown;
         }
     }
 
@@ -25,6 +25,6 @@ public class KeyInteractable : Interactable
         InteractEnd();
 
         //Чтобы взаимодествия несколько раз не вызывались
-        Handler.PressedKey -= KeyDown;
+        Handler.PressedKeyDown -= KeyDown;
     }
 }
