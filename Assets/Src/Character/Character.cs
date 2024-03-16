@@ -57,6 +57,7 @@ public class Character : MonoBehaviour
             _characterStateMachine.ChangeState(_characterStateMachine.DuckState);
         }
 
+        transform.rotation = Quaternion.Euler(0, Input.GetAxis("Horizontal") >= 0 ? 0 : 180, 0);
         Rigidbody.velocity = new Vector2(Input.GetAxis("Horizontal") * Speed, Rigidbody.velocity.y);
     }
 

@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 863772751}
   - component: {fileID: 863772750}
   - component: {fileID: 863772753}
-  - component: {fileID: 863772752}
+  - component: {fileID: 863772754}
   m_Layer: 0
   m_Name: Isometric Diamond
   m_TagString: Untagged
@@ -506,20 +506,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &863772752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863772747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 643b95f3748b14cde8a23cfaf9d0686d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leverStates: []
-  text: {fileID: 11400000, guid: 18f6970a1ac474ab9bb23a06ed5687fe, type: 2}
 --- !u!61 &863772753
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -565,6 +551,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &863772754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863772747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19179d728a664477ae73cc2e01ed9d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &880093881
 GameObject:
   m_ObjectHideFlags: 0
