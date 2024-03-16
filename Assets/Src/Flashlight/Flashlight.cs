@@ -2,13 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using Zenject;
 
 public class Flashlight : MonoBehaviour
 {
     private FlashlightStateMachine _flashlightStateMachine;
     private IHandler _handler;
+    private Light2D _light;
 
     [Inject]
     public void Construct(IHandler handler)
@@ -21,6 +24,7 @@ public class Flashlight : MonoBehaviour
     private void Awake()
     {
         Debug.Log(_handler);
+        _light = GetComponent<Light2D>();
         _handler.PressedKeyDown += KeyDown;
     }
 
@@ -45,7 +49,21 @@ public class Flashlight : MonoBehaviour
         }
     }
 
+    private void ExecuteFlashlightFunctions() {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _light.pointLightOuterRadius);
+        foreach (var col in colliders){
+            IOnFlashlight func;
+            if (col.gameObject.TryGetComponent<IOnFlashlight>(out func)){
+                if (isFlash)
+                    func?.OnFlashlight();
+                else
+                    func?.OnDarklight();
+            }
+        }
+    }
+
     private void Update() {
+        ExecuteFlashlightFunctions();
         _flashlightStateMachine.Tick();
     }
 
@@ -53,4 +71,9 @@ public class Flashlight : MonoBehaviour
     {
         _handler.PressedKeyDown -= KeyDown;
     }
+
+    // private void OnDrawGizmos() {
+    //     Gizmos.color = Color.green;
+    //     Gizmos.DrawWireSphere(transform.position, GetComponent<Light2D>().pointLightOuterRadius);
+    // }
 }
