@@ -4,8 +4,10 @@ public class RunState : MovementState
 {
     private float _speed = 3;
 
-    public RunState(CharacterStateMachine characterStateMachine) :
-        base(characterStateMachine) { }
+    public RunState(CharacterStateMachine characterStateMachine) : base(characterStateMachine) 
+    {
+        TransitionState = TransitionState.All;
+    }
 
     public override bool Enter()
     {

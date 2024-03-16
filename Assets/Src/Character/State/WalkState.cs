@@ -7,7 +7,10 @@ public class WalkState : MovementState
     private float _speed = 1.5f;
     
     public WalkState(CharacterStateMachine characterStateMachine) : 
-        base(characterStateMachine) { }
+        base(characterStateMachine) 
+    {
+        TransitionState = TransitionState.All;
+    }
 
     public override bool Enter()
     {

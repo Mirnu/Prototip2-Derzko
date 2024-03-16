@@ -7,7 +7,6 @@ public class GameplaySceneInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Handlers();
         BindPlayer();
         Container.Bind<AsyncProcessor>().FromNewComponentOnNewGameObject().AsSingle();
     }
@@ -17,10 +16,5 @@ public class GameplaySceneInstaller : MonoInstaller
         Character character = Container.InstantiatePrefabForComponent<Character>(_characterPrefab);
         Container.BindInterfacesAndSelfTo<Character>().FromInstance(character).AsSingle();
         //Container.BindInterfacesAndSelfTo<Player>().FromNew().AsSingle();
-    }
-
-    private void Handlers()
-    {
-        Container.BindInterfacesAndSelfTo<KeyboardHandler>().AsSingle();
     }
 }

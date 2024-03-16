@@ -12,7 +12,11 @@ public class JumpState : MovementState
     private const string EarthLayer = "Earth";
 
     public JumpState(CharacterStateMachine characterStateMachine) :
-        base(characterStateMachine) { }
+        base(characterStateMachine) 
+    {
+        TransitionState = TransitionState.Exclude;
+        PossibleTransitions.Add(CharacterStateMachine.DuckState);
+    }
 
     public override bool Enter()
     {
