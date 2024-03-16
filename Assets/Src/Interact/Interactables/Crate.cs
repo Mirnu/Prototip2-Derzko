@@ -12,10 +12,14 @@ public class Crate : KeyInteractable, Holdable {
         Debug.Log("PickedUp: " + name);
     }
 
+    public void OnPlacedDown() {
+        Debug.Log("PlacedDown: " + name);
+    }
+
     private void Start() {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         onInteractAction += delegate { 
-            FindObjectOfType<Player>().PickUp(this);
+            player.PickUp(this);
         };
     }
 

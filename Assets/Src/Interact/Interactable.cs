@@ -11,10 +11,13 @@ public abstract class Interactable : MonoBehaviour {
     public InteractableState state;
     public IHandler Handler;
 
+    protected Player player;
+
     [Inject]
-    public void Construct(IHandler handler)
+    public void Construct(IHandler handler, Player player)
     {
         Handler = handler;
+        this.player = player;
     }
 
     public void InteractionStart() {
