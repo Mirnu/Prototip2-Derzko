@@ -12,12 +12,6 @@ public class UnabledState : FlashlightState
     public override bool Enter()
     {
         Flashlight.gameObject.GetComponent<Light2D>().intensity = 0;
-        Debug.Log("Unable");
         return true;
-    }
-
-    public override bool Exit()
-    {
-        return base.Exit();
     }
 }

@@ -37,7 +37,6 @@ public class FlashlightStateMachine : StateMachine, ITickable, IInitializable
 
     public bool ChangeState(FlashlightState newState)
     {
-        Debug.Log("stateChanging");
         if (newState == CurrentState) return false;
         if (!CurrentState.Exit()) return false;
         if (!newState.Enter())
@@ -47,6 +46,7 @@ public class FlashlightStateMachine : StateMachine, ITickable, IInitializable
         }
         LastState = CurrentState;
         CurrentState = newState;
+        Debug.Log($"Current new State: {CurrentState}");
         return true;
     }
 }

@@ -21,13 +21,12 @@ public class Flashlight : MonoBehaviour
     private void Awake()
     {
         Debug.Log(_handler);
-        _handler.PressedKey += KeyDown;
-
+        _handler.PressedKeyDown += KeyDown;
     }
 
     private bool isFlash = true;
     private bool isActive = false;
-    public void KeyDown(KeyCode key)
+    private void KeyDown(KeyCode key)
     {
         if (key == KeyCode.F)
         {
@@ -46,13 +45,12 @@ public class Flashlight : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
+    private void Update() {
         _flashlightStateMachine.Tick();
     }
 
     private void OnDestroy()
     {
-        _handler.PressedKey -= KeyDown;
+        _handler.PressedKeyDown -= KeyDown;
     }
 }
