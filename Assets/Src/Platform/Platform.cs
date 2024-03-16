@@ -11,12 +11,13 @@ public class Platform : MonoBehaviour
     private Action MovePlatformAction;
     
     private float timer = 0;
-    private MoveData currentMovementData;
+    private MoveData currentMovementData => PlatformMovements[0];
     private Vector3 target;
+    private bool hasMoved = false;
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(LayerMask.LayerToName(other.gameObject.layer) != playerLayer) return;
-        currentMovementData = PlatformMovements[0];
+        if(LayerMask.LayerToName(other.gameObject.layer) != playerLayer || hasMoved) return;
+        hasMoved = true;
         target = transform.position + currentMovementData.PositionChange;
         MovePlatformAction += MovePlatform;
     }
@@ -24,20 +25,13 @@ public class Platform : MonoBehaviour
     private void Update() => MovePlatformAction?.Invoke();
 
     private void MovePlatform() {
-        if(Vector2.Distance(a: transform.position, currentMovementData.PositionChange) <= 0.001f) { MovePlatformAction -= MovePlatform; return; }
+        if(Vector2.Distance(a: transform.position, currentMovementData.PositionChange) <= 0.001f) { 
+            MovePlatformAction -= MovePlatform; 
+        }
         timer += Time.deltaTime;
         transform.position = Vector3.Lerp(transform.position, target, timer/currentMovementData.moveTime);
-        transform.rotation = Quaternion.Lerp(transform.rotation, currentMovementData.NewRotation, timer/currentMovementData.moveTime);
+        if(currentMovementData.NewRotation.x != 0 || currentMovementData.NewRotation.y != 0 || currentMovementData.NewRotation.z != 0 || currentMovementData.NewRotation.w != 0) {
+            transform.rotation = Quaternion.Lerp(transform.rotation, currentMovementData.NewRotation, timer/currentMovementData.moveTime);
+        }
     }
-}
-[CreateAssetMenu(fileName = "MoveData", menuName = "Data/PlatformMoveData", order = 1)]
-public class MoveData : ScriptableObject {
-    [Tooltip("На сколько переместится платформа")]
-    public Vector3 PositionChange;
-    [Tooltip("Конечное вращение платформы")]
-    public Quaternion NewRotation;
-    [Tooltip("Время на перемещение платформы в милисекундах(вроде)")]
-    public float moveTime;
-    [Tooltip("Ходит ли платформа 'кругами'")]
-    public bool loop = false;
 }
