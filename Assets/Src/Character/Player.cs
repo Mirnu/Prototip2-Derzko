@@ -1,26 +1,21 @@
-using System;
 using System.Collections;
-using System.Linq;
-using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Zenject;
 
-public class Player : MonoBehaviour
+public class Player
 {
-    [SerializeField] private Character character;
-    [SerializeField] private TextMeshProUGUI text;
-
-    public Transform heldItemPivot;
-
     private Holdable currentItem;
     private bool isPrinting = false;
     private IHandler Handler;
+    private Character _character;
+    private AsyncProcessor _async;
 
     [Inject]
-    public void Construct(IHandler handler)
+    public void Construct(IHandler handler, Character character, AsyncProcessor async)
     {
         Handler = handler;
+        _character = character;
+        _async = async;
     }
 
     private void KeyDown(KeyCode key) {
@@ -32,7 +27,7 @@ public class Player : MonoBehaviour
         if (currentItem != null) return;
         Handler.PressedKeyDown += KeyDown;
         item.OnPickedUp();
-        item.ItemPrefab.transform.SetParent(heldItemPivot);
+        item.ItemPrefab.transform.SetParent(_character.heldItemPivot);
         item.ItemPrefab.transform.localPosition = new Vector3(0, 0, 0);
         currentItem = item;
     }
@@ -46,16 +41,16 @@ public class Player : MonoBehaviour
 
     public void PrintHeadText(TextScriptableObject obj) {
         if(!isPrinting) {
-            StartCoroutine(PrintText(obj.Text, obj.TextPopupSpeed));
+            _async.StartCoroutine(PrintText(obj.Text, obj.TextPopupSpeed));
         }
         isPrinting = false;
     }
 
     public IEnumerator PrintText(string textToPrint, float waitTime) {
         isPrinting = true;
-        text.text = "";
+        _character.text.text = "";
         for (int i = 0; i < textToPrint.Length; i++) {
-            text.text += textToPrint[i];
+            _character.text.text += textToPrint[i];
             yield return new WaitForSeconds(waitTime);
         }
     }

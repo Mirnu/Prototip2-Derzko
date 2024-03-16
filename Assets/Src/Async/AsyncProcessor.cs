@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public class AsyncProcessor : MonoBehaviour
+public class AsyncProcessor : MonoBehaviour 
 {
 }

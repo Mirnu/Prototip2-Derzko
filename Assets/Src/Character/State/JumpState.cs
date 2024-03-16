@@ -24,7 +24,6 @@ public class JumpState : MovementState
         Character.CollisionEnter += OnCollisionEnter;
         isCanJump = false;
         Rigidbody?.AddRelativeForce( Character.transform.up *  _force, ForceMode2D.Impulse);
-        
         return true;
     }
 
@@ -33,5 +32,6 @@ public class JumpState : MovementState
         if (collision.gameObject.layer != LayerMask.NameToLayer(EarthLayer)) return;
         isCanJump = true;
         Character.CollisionEnter -= OnCollisionEnter;
+        CharacterStateMachine.ChangeState(CharacterStateMachine.IdleState);
     }
 }

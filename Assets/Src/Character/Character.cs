@@ -11,8 +11,12 @@ public class Character : MonoBehaviour
 {
     public CharacterStateMachine _characterStateMachine { get; private set; }
 
+
     public Rigidbody2D Rigidbody { get; private set; }
     public event Action<Collision2D> CollisionEnter;
+
+    public Transform heldItemPivot;
+    public TextMeshProUGUI text;
 
     public BoxCollider2D Collider { get; private set; }
     private IHandler _handler;
@@ -53,7 +57,6 @@ public class Character : MonoBehaviour
         if (keyCode == KeyCode.Space)
         {
             _characterStateMachine.ChangeState(_characterStateMachine.JumpState);
-            _characterStateMachine.ChangeState(_characterStateMachine.IdleState);
         }
         else if (keyCode == KeyCode.LeftControl)
         {
