@@ -11,8 +11,20 @@ public class FlashState : FlashlightState
 
     public override bool Enter()
     {
-        Flashlight.gameObject.GetComponent<Light2D>().intensity = 1;
-        Flashlight.gameObject.GetComponent<Light2D>().color = new Color(255, 255, 255);
+        Flashlight.Light.intensity = 1;
+        Flashlight.Light.color = new Color(255, 255, 255);
+        Handler.PressedKeyDown += KeyDown;
+        return true;
+    }
+
+    private void KeyDown(KeyCode key){
+        if (key != KeyCode.Q) return;
+        FlashlightStateMachine.ChangeState(FlashlightStateMachine.darkState);
+    }
+
+    public override bool Exit()
+    {
+        Handler.PressedKeyDown -= KeyDown;
         return true;
     }
 }

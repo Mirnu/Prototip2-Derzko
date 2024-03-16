@@ -11,7 +11,7 @@ public class UnabledState : FlashlightState
 
     public override bool Enter()
     {
-        Flashlight.gameObject.GetComponent<Light2D>().intensity = 0;
+        Flashlight.Light.intensity = 0;
         return true;
     }
 }

@@ -11,12 +11,15 @@ public class Flashlight : MonoBehaviour
 {
     private FlashlightStateMachine _flashlightStateMachine;
     private IHandler _handler;
-    private Light2D _light;
+    public Light2D Light {get; private set;}
+
+    public bool isActive = true;
 
     [Inject]
     public void Construct(IHandler handler)
     {
         _handler = handler;
+        Light = GetComponent<Light2D>();
         _flashlightStateMachine = new FlashlightStateMachine(this, _handler);
         _flashlightStateMachine.Initialize();
     }
@@ -24,40 +27,27 @@ public class Flashlight : MonoBehaviour
     private void Awake()
     {
         Debug.Log(_handler);
-        _light = GetComponent<Light2D>();
         _handler.PressedKeyDown += KeyDown;
     }
 
-    private bool isFlash = true;
-    private bool isActive = false;
+    private bool isWorking = false;
     private void KeyDown(KeyCode key)
     {
-        if (key == KeyCode.F)
-        {
-            if (isActive) _flashlightStateMachine.ChangeState(_flashlightStateMachine.unabledState);
-            else _flashlightStateMachine.ChangeState(_flashlightStateMachine.flashState);
-            isActive = !isActive;
-        }
-        else if (key == KeyCode.Q)
-        {
-            if (isActive)
-            {
-                if (isFlash) _flashlightStateMachine.ChangeState(_flashlightStateMachine.darkState);
-                else _flashlightStateMachine.ChangeState(_flashlightStateMachine.flashState);
-                isFlash = !isFlash;
-            }         
-        }
+        if (key != KeyCode.F) return;
+        if (!isActive) return;
+        if (isWorking)
+            _flashlightStateMachine.ChangeState(_flashlightStateMachine.unabledState);
+        else
+            _flashlightStateMachine.ChangeState(_flashlightStateMachine.LastState);
+        isWorking = !isWorking;
     }
 
     private void ExecuteFlashlightFunctions() {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _light.pointLightOuterRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Light.pointLightOuterRadius);
         foreach (var col in colliders){
-            IOnFlashlight func;
-            if (col.gameObject.TryGetComponent<IOnFlashlight>(out func)){
-                if (isFlash)
-                    func?.OnFlashlight();
-                else
-                    func?.OnDarklight();
+            IOnFlashlightAction func;
+            if (col.gameObject.TryGetComponent<IOnFlashlightAction>(out func)){
+                func?.OnFlashlightAction.Invoke();
             }
         }
     }

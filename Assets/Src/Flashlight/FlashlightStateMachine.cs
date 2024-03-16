@@ -12,7 +12,7 @@ public class FlashlightStateMachine : StateMachine, ITickable, IInitializable
     
     public Flashlight Flashlight { get; private set; }
 
-    private FlashlightState LastState { get; set; }
+    public FlashlightState LastState { get; private set; }
     private FlashlightState CurrentState { get; set; }
 
     public new IHandler Handler { get; private set; }
@@ -31,6 +31,7 @@ public class FlashlightStateMachine : StateMachine, ITickable, IInitializable
 
     public void Initialize(FlashlightState flashlightState)
     {
+        LastState = flashState;
         CurrentState = flashlightState;
         CurrentState.Enter();
     }
@@ -38,13 +39,18 @@ public class FlashlightStateMachine : StateMachine, ITickable, IInitializable
     public bool ChangeState(FlashlightState newState)
     {
         if (newState == CurrentState) return false;
+        if (!Flashlight.isActive){
+            CurrentState = unabledState;
+            return false;
+        }
         if (!CurrentState.Exit()) return false;
         if (!newState.Enter())
         {
             CurrentState.Enter();
             return false;
         }
-        LastState = CurrentState;
+        if (CurrentState != unabledState)
+            LastState = CurrentState;
         CurrentState = newState;
         Debug.Log($"Current new State: {CurrentState}");
         return true;
