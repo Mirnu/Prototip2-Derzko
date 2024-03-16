@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: RotatingPlatfromMoveData
   m_EditorClassIdentifier: Assembly-CSharp::MoveData
-  PositionChange: {x: 0, y: 1, z: 0}
+  PositionChange: {x: 0, y: 0.1, z: 0}
   NewRotation: {x: 0, y: 0, z: 0, w: 0}
-  moveTime: 5
+  moveTime: 10
+  loop: 0
