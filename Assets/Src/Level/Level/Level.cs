@@ -5,21 +5,13 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public dynamic state = new
-    {
-        isEnabled = false,
-        time = 0,
-    };
+    [SerializeField] private List<StateObject> _stateObjects;
 
-    public Action<dynamic> StateChanged;
-
-    private void Awake()
+    private void Start()
     {
-        StateChanged += Changed;
-    } 
-
-    private void Changed(dynamic state)
-    {
-        
+        foreach (var stateObject in _stateObjects)
+        {
+            stateObject.ChangeObjectState("isActive", true);
+        }
     }
 }

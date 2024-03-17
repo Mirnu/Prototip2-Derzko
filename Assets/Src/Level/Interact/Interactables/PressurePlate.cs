@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class PressurePlate : PressInteractable
 {
-    protected dynamic State = new { };
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        Subscribe("isActive", stateChanged);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void stateChanged()
     {
-        
+        Debug.Log("IsAcitve");
     }
 }

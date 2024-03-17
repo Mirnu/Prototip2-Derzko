@@ -8,7 +8,6 @@ public abstract class Interactable : StateObject {
     public Action onInteractAction;
     public Action onInteractStart;
     public Action onInteractEnd;
-    public InteractableState state;
     public IHandler Handler;
 
     protected Player player;
@@ -27,7 +26,4 @@ public abstract class Interactable : StateObject {
     public void InteractEnd() {
         onInteractEnd?.Invoke();
     }
-}
-public struct InteractableState {
-    public bool isActive;
 }
