@@ -18,6 +18,8 @@ public class KeyboardHandler : IHandler, ITickable
         KeyCode.Space,
         KeyCode.LeftControl,
         KeyCode.E,
+        KeyCode.F,
+        KeyCode.Q
     };
 
     public void Tick()
