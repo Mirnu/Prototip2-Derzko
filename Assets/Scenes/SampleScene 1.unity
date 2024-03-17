@@ -271,7 +271,7 @@ GameObject:
   - component: {fileID: 723542014}
   - component: {fileID: 723542013}
   - component: {fileID: 723542015}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,7 +545,7 @@ GameObject:
   - component: {fileID: 812001831}
   - component: {fileID: 812001834}
   - component: {fileID: 812001833}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -631,10 +631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9d540817fa4046d8843bbc084053abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlatformMovements:
-  - {fileID: 11400000, guid: 1a4886a68b9214aaf9bcb925a08938ba, type: 2}
-  - {fileID: 11400000, guid: e1c2cd43828b843dc92dedcc2a5a649a, type: 2}
-  isAutomatic: 1
+  PlatformMovements: []
 --- !u!61 &812001834
 BoxCollider2D:
   m_ObjectHideFlags: 0

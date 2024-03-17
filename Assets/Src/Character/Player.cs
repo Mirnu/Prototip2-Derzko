@@ -10,6 +10,7 @@ public class Player
     private Character _character;
     private AsyncProcessor _async;
 
+
     [Inject]
     public void Construct(IHandler handler, Character character, AsyncProcessor async)
     {

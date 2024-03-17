@@ -20,5 +20,9 @@ public class KeyInteractable : Interactable
     private void KeyDown(KeyCode key) {
         if (key != KeyCode.E) return;
         onInteractAction?.Invoke();
+        InteractEnd();
+
+        //Чтобы взаимодествия несколько раз не вызывались
+        Handler.PressedKeyDown -= KeyDown;
     }
 }
