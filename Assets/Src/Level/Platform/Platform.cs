@@ -12,7 +12,6 @@ public class Platform : MonoBehaviour
     [Header("Двигается ли платформа сама")][SerializeField] private bool isAutomatic = false;
 
     private const string playerLayer = "Player";
-    //private MoveData currentMovementData => PlatformMovements[0];
 
     private void Start() {
         if(isAutomatic) {
@@ -45,7 +44,17 @@ public class Platform : MonoBehaviour
         }
         if(data.loop) 
         {
+            yield return new WaitForSeconds(data.loopWaitTime);
             StartCoroutine(MovePlatformCoroutine(new MoveData(-data.PositionChange, Quaternion.Euler(-data.NewRotation.eulerAngles), data.moveTime, data.loop)));
+        }
+    }
+    private void OnDrawGizmos() {
+        Vector3 sum = Vector3.zero;
+        foreach(var data in PlatformMovements) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position + sum, transform.position + sum + data.PositionChange);
+            sum += data.PositionChange;
+            if(data.loop) return;
         }
     }
 }

@@ -12,7 +12,8 @@ public class Lever : KeyInteractable {
     private void Start() {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         onInteractAction += delegate { 
-            player.PrintHeadText(text); 
+            player.PrintHeadText(text);
+            
         };
     }
 
