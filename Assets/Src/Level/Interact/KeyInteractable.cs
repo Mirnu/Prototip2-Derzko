@@ -22,7 +22,7 @@ public class KeyInteractable : Interactable
         onInteractAction?.Invoke();
         InteractEnd();
 
-        //Чтобы взаимодествия несколько раз не вызывались
+        //Р§С‚РѕР±С‹ РІР·Р°РёРјРѕРґРµСЃС‚РІРёСЏ РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р· РЅРµ РІС‹Р·С‹РІР°Р»РёСЃСЊ
         Handler.PressedKeyDown -= KeyDown;
     }
 }
