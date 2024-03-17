@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Platform : MonoBehaviour
+public class Platform : StateObject
 {
     [Header("Список перемещений платформы")] public List<MoveData> PlatformMovements;
     
@@ -13,11 +13,27 @@ public class Platform : MonoBehaviour
 
     private const string playerLayer = "Player";
 
+    public override Dictionary<string, object> State { get; protected set; } = new Dictionary<string, object>() 
+    {
+        {"isActive", false}
+    };
+
+    private void Awake()
+    {
+        Subscribe("isActive", (active, prev) =>
+        {
+            if ((bool)active == false) return;
+            Move();
+        });
+    }
+
     private void Start() {
         if(isAutomatic) {
-            StartCoroutine(IterateOverMovements());
+            Move();
         }
     }
+
+    public void Move() => StartCoroutine(IterateOverMovements());
 
     public IEnumerator IterateOverMovements() {
         for(var i = 0; i < PlatformMovements.Count; i++) {
@@ -29,7 +45,7 @@ public class Platform : MonoBehaviour
         }
     }
 
-    IEnumerator MovePlatformCoroutine(MoveData data) {
+    private IEnumerator MovePlatformCoroutine(MoveData data) {
         Vector3 target = transform.position + data.PositionChange;
         for(float i = 0; i < data.moveTime; i += Time.deltaTime) {
             transform.position = Vector3.Lerp(transform.position, target, i/(data.moveTime*100));

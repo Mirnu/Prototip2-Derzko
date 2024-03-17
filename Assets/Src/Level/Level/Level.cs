@@ -5,13 +5,20 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    [SerializeField] private List<StateObject> _stateObjects;
+    [SerializeField] private List<CoupleInteractables> coupleInteractables; 
 
     private void Start()
     {
-        foreach (var stateObject in _stateObjects)
+        foreach (var couple in coupleInteractables)
         {
-            stateObject.ChangeObjectState("isActive", true);
+            couple.Broadcaster.Subscribe("isActive", (state, prev) => couple.Receiver.ChangeObjectState("isActive", true));
         }
     }
+}
+
+[Serializable]
+public struct CoupleInteractables
+{
+    public StateObject Broadcaster;
+    public StateObject Receiver;
 }
