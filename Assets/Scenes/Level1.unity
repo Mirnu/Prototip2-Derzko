@@ -633,6 +633,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlatformMovements:
   - {fileID: 11400000, guid: 1a4886a68b9214aaf9bcb925a08938ba, type: 2}
+  - {fileID: 11400000, guid: e1c2cd43828b843dc92dedcc2a5a649a, type: 2}
+  isAutomatic: 1
 --- !u!61 &812001834
 BoxCollider2D:
   m_ObjectHideFlags: 0

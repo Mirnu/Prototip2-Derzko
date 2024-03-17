@@ -5,12 +5,19 @@ using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "MoveData", menuName = "Data/PlatformMoveData", order = 1)]
 public class MoveData : ScriptableObject {
-    [Tooltip("На сколько переместится платформа")]
+    [Header("На сколько переместится платформа")]
     public Vector3 PositionChange;
-    [Tooltip("Конечное вращение платформы")]
+    [Header("Конечное вращение платформы")]
     public Quaternion NewRotation;
-    [Tooltip("Время на перемещение платформы в милисекундах(вроде)")]
+    [Header("Время на перемещение платформы в милисекундах(вроде)")]
     public float moveTime;
-    [Tooltip("Ходит ли платформа 'кругами'")]
+    [Header("Ходит ли платформа 'кругами'")]
     public bool loop = false;
+
+    public MoveData(Vector3 delta, Quaternion newRot, float time, bool loop) {
+        PositionChange = delta;
+        NewRotation = newRot;
+        moveTime = time;
+        this.loop = loop;
+    }
 }
