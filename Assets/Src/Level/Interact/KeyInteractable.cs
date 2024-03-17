@@ -1,9 +1,6 @@
-using System;
 using UnityEngine;
-using UnityEngine.XR;
-using Zenject;
 
-public class KeyInteractable : Interactable
+public abstract class KeyInteractable : Interactable
 {
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.TryGetComponent(out Character character)) {
@@ -20,9 +17,5 @@ public class KeyInteractable : Interactable
     private void KeyDown(KeyCode key) {
         if (key != KeyCode.E) return;
         onInteractAction?.Invoke();
-        InteractEnd();
-
-        //Чтобы взаимодествия несколько раз не вызывались
-        Handler.PressedKeyDown -= KeyDown;
     }
 }

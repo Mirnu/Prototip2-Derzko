@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 [RequireComponent(typeof(Collider2D))]
-public abstract class Interactable : MonoBehaviour {
+public abstract class Interactable : StateObject {
     
     public Action onInteractAction;
     public Action onInteractStart;

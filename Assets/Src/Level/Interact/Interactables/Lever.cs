@@ -9,6 +9,8 @@ public class Lever : KeyInteractable {
 
     private SpriteRenderer _spriteRenderer;
 
+    public override dynamic State { get => throw new NotImplementedException(); protected set => throw new NotImplementedException(); }
+
     private void Start() {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         onInteractAction += delegate { 
