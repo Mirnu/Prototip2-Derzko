@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Platform : StateObject
 {
@@ -22,7 +20,7 @@ public class Platform : StateObject
     {
         Subscribe("isActive", (active, prev) =>
         {
-            if ((bool)active == false) return;
+            if (!(bool)active) return;
             Move();
         });
     }

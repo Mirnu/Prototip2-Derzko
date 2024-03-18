@@ -10,8 +10,8 @@ public class Level : LevelState
     {
         foreach (var couple in coupleInteractables)
         {
-            _stateObjects.Add(couple.Broadcaster);
-            _stateObjects.Add(couple.Receiver);
+            _stateObjects.Insert(couple.Broadcaster.ID, couple.Broadcaster);
+            _stateObjects.Insert(couple.Receiver.ID, couple.Receiver);
             couple.Broadcaster.Subscribe("isActive", (state, prev) => couple.Receiver.ChangeObjectState("isActive", true));
         }
 

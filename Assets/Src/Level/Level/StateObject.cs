@@ -6,20 +6,21 @@ using UnityEngine;
 
 public abstract class StateObject : MonoBehaviour
 {
+    public int ID;
     public virtual Dictionary<string, object> State { get; protected set; }
-    public Dictionary<string, object> PrevState { get; protected set; }
+    public Dictionary<string, object> PrevState = new Dictionary<string, object>();
 
-    public Action<int, Dictionary<string, object>> ObjectStateChanged; 
+    public Action<StateObject> ObjectStateChanged; 
 
     private Dictionary<string, List<Action<object, object>>> _subscribers = new Dictionary<string, List<Action<object, object>>>();
 
     public void ChangeObjectState(string state, object newValue)
     {
         if (!State.ContainsKey(state)) throw new Exception("Property is null");
-        if (State[state] == newValue) return;
-        PrevState = State;
+        if (State[state].Equals(newValue)) return;
+        PrevState[state] = State[state];
         State[state] = newValue;
-        ObjectStateChanged?.Invoke(GetInstanceID(), PrevState);
+        ObjectStateChanged?.Invoke(this);
         callSubscribes(state);
     }
 

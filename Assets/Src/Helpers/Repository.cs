@@ -1,5 +1,5 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 public static class Repository
