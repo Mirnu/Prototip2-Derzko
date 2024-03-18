@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Zenject;
 
 public class LevelState : MonoBehaviour 
 {
@@ -9,6 +9,17 @@ public class LevelState : MonoBehaviour
 
     protected List<StateObject> _stateObjects = new List<StateObject>();
     public Dictionary<int, Dictionary<string, object>> _savedStateObjects = new Dictionary<int, Dictionary<string, object>>();
+
+    [SerializeField] protected List<CheckPointBundle> checkPointBundles;
+    [SerializeField] protected Transform spawnPoint;
+
+    protected Character _character;
+
+    [Inject]
+    public void Construct(Character character)
+    {
+        _character = character;
+    }
 
     protected void StartMonitor()
     {
@@ -18,6 +29,20 @@ public class LevelState : MonoBehaviour
             initLevelState();
 
         handleChangeLevelState();
+        handleCheckPoints();
+    }
+
+    private void handleCheckPoints()
+    {
+        foreach (var checkPoint in checkPointBundles)
+        {
+            checkPoint.Broadcaster.Subscribe("isActive", (newState, Prev) =>
+            {
+                if (!(bool)newState) return;
+                spawnPoint = checkPoint.SpawnPoint;
+                SaveCurrentLevelState();
+            });
+        }
     }
 
     private void initLevelState()
@@ -34,10 +59,13 @@ public class LevelState : MonoBehaviour
                 stateObject.ChangeObjectState(_state.Key, _state.Value); 
             }
         }
+        _character.transform.position = data.spawnPoint.y != 0 && data.spawnPoint.x != 0  ? 
+            new Vector2 (data.spawnPoint.x, data.spawnPoint.y) : 
+            spawnPoint.position;
         SaveCurrentLevelState();
     }
 
-    public void SaveCurrentLevelState()
+    private void SaveCurrentLevelState()
     {
         foreach (var stateObject in _stateObjects)
         {
@@ -60,7 +88,10 @@ public class LevelState : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        LevelData levelData = new LevelData { stateObjects = _savedStateObjects };
+        LevelData levelData = new LevelData { 
+            stateObjects = _savedStateObjects,
+            spawnPoint = new Victor { x = spawnPoint.position.x, y = spawnPoint.position.y }
+        };
         Repository.SetData(levelData);
         Repository.SaveState();
     }
@@ -69,4 +100,16 @@ public class LevelState : MonoBehaviour
 public struct LevelData
 {
     public Dictionary<int, Dictionary<string, object>> stateObjects;
+    public Victor spawnPoint; 
+}
+public struct Victor
+{
+    public float x, y;
+}
+
+[Serializable]
+public struct CheckPointBundle
+{
+    public StateObject Broadcaster;
+    public Transform SpawnPoint;
 }

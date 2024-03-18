@@ -1,12 +1,19 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Level : LevelState
 {
-    [SerializeField] protected List<CoupleInteractables> coupleInteractables; 
+    [SerializeField] protected List<CoupleInteractables> coupleInteractables;
 
     private void Start()
+    {
+        initInteractables();
+        StartMonitor();
+    }
+
+    private void initInteractables()
     {
         foreach (var couple in coupleInteractables)
         {
@@ -14,8 +21,6 @@ public class Level : LevelState
             _stateObjects.Insert(couple.Receiver.ID, couple.Receiver);
             couple.Broadcaster.Subscribe("isActive", (state, prev) => couple.Receiver.ChangeObjectState("isActive", true));
         }
-
-        StartMonitor();
     }
 }
 
