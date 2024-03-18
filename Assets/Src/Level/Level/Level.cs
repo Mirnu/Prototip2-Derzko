@@ -1,18 +1,21 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level : MonoBehaviour
+public class Level : LevelState
 {
-    [SerializeField] private List<CoupleInteractables> coupleInteractables; 
+    [SerializeField] protected List<CoupleInteractables> coupleInteractables; 
 
     private void Start()
     {
         foreach (var couple in coupleInteractables)
         {
+            _stateObjects.Add(couple.Broadcaster);
+            _stateObjects.Add(couple.Receiver);
             couple.Broadcaster.Subscribe("isActive", (state, prev) => couple.Receiver.ChangeObjectState("isActive", true));
         }
+
+        StartMonitor();
     }
 }
 

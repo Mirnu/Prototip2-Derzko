@@ -9,7 +9,7 @@ public abstract class StateObject : MonoBehaviour
     public virtual Dictionary<string, object> State { get; protected set; }
     public Dictionary<string, object> PrevState { get; protected set; }
 
-    public Action ObjectStateChanged; 
+    public Action<int, Dictionary<string, object>> ObjectStateChanged; 
 
     private Dictionary<string, List<Action<object, object>>> _subscribers = new Dictionary<string, List<Action<object, object>>>();
 
@@ -19,7 +19,7 @@ public abstract class StateObject : MonoBehaviour
         if (State[state] == newValue) return;
         PrevState = State;
         State[state] = newValue;
-        ObjectStateChanged?.Invoke();
+        ObjectStateChanged?.Invoke(GetInstanceID(), PrevState);
         callSubscribes(state);
     }
 

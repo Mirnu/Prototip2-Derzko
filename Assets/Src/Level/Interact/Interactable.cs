@@ -9,7 +9,6 @@ public abstract class Interactable : StateObject
     public Action onInteractAction;
     public Action onInteractStart;
     public Action onInteractEnd;
-    public InteractableState state = new();
 
     public IHandler Handler;
 
@@ -32,13 +31,4 @@ public abstract class Interactable : StateObject
     {
         onInteractEnd?.Invoke();
     }
-}
-
-public abstract class Interactor : MonoBehaviour
-{
-    public abstract void Interact();
-}
-public struct InteractableState
-{
-    public bool isActive;
 }
