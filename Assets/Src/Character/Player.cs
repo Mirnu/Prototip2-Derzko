@@ -19,7 +19,7 @@ public class Player
     }
 
     private void KeyDown(KeyCode key) {
-        if (key != KeyCode.E || currentItem == null) return;
+        if (key != KeyCode.E) return;
         PlaceDown();
     }
 
@@ -37,21 +37,5 @@ public class Player
         currentItem.OnPlacedDown();
         currentItem.ItemPrefab.transform.SetParent(null);
         currentItem = null;
-    }
-
-    public void PrintHeadText(TextScriptableObject obj) {
-        if(!isPrinting) {
-            _async.StartCoroutine(PrintText(obj.Text, obj.TextPopupSpeed));
-        }
-        isPrinting = false;
-    }
-
-    public IEnumerator PrintText(string textToPrint, float waitTime) {
-        isPrinting = true;
-        _character.text.text = "";
-        for (int i = 0; i < textToPrint.Length; i++) {
-            _character.text.text += textToPrint[i];
-            yield return new WaitForSeconds(waitTime);
-        }
     }
 }

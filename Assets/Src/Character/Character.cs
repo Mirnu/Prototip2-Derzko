@@ -11,7 +11,6 @@ public class Character : MonoBehaviour
 {
     public CharacterStateMachine _characterStateMachine { get; private set; }
 
-
     public Rigidbody2D Rigidbody { get; private set; }
     public event Action<Collision2D> CollisionEnter;
 

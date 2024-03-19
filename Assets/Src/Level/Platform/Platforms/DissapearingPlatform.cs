@@ -23,7 +23,6 @@ public class DissapearingPlatform : Platform
 
     IEnumerator SetActiveAfterTime(float time, bool active) {
         yield return new WaitForSeconds(time);
-        //temp
         State["isActive"] = active;
         gameObject.GetComponent<Collider2D>().enabled = active;
         gameObject.GetComponent<SpriteRenderer>().enabled = active;
