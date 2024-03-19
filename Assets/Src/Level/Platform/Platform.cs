@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ModestTree;
 using UnityEngine;
 
 public class Platform : StateObject
@@ -8,8 +9,6 @@ public class Platform : StateObject
     [Header("Список перемещений платформы")] public List<MoveData> PlatformMovements;
     
     [Header("Двигается ли платформа сама")][SerializeField] private bool isAutomatic = false;
-
-    private const string playerLayer = "Player";
 
     public override Dictionary<string, object> State { get; protected set; } = new Dictionary<string, object>() 
     {
@@ -32,6 +31,8 @@ public class Platform : StateObject
     }
 
     public void Move() => StartCoroutine(IterateOverMovements());
+
+    public void StopMoving() => StopCoroutine(IterateOverMovements());
 
     public IEnumerator IterateOverMovements() {
         for(var i = 0; i < PlatformMovements.Count; i++) {
@@ -63,6 +64,7 @@ public class Platform : StateObject
         }
     }
     private void OnDrawGizmos() {
+        if(PlatformMovements.IsEmpty()) return;
         Vector3 sum = Vector3.zero;
         foreach(var data in PlatformMovements) {
             Gizmos.color = Color.green;

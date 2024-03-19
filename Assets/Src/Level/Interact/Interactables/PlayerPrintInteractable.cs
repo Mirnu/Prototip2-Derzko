@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lever : KeyInteractable {
+public class PlayerPrintInteractable : KeyInteractable {
     
     [SerializeField] private List<Sprite> leverStates = new List<Sprite>(); 
     [SerializeField] private TextScriptableObject text;
@@ -13,11 +13,6 @@ public class Lever : KeyInteractable {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         onInteractAction += delegate { 
             player.PrintHeadText(text);
-            
         };
-    }
-
-    void log() {
-        Debug.Log("Interacted /w: " + name);
     }
 }
