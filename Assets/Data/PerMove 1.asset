@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9463ec122f8644833b363ebb53510c0e, type: 3}
-  m_Name: PerMove
+  m_Name: PerMove 1
   m_EditorClassIdentifier: 
-  PositionChange: {x: 3.92, y: 0, z: 0}
+  PositionChange: {x: -3.92, y: 0, z: 0}
   NewRotation: {x: 0, y: 0, z: 0, w: 0}
   moveTime: 5
   loop: 0

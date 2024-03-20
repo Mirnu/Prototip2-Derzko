@@ -21,7 +21,7 @@ public class Level : LevelState
             _stateObjects.Insert(couple.Receiver.ID, couple.Receiver);
             maid.GiveTask(
                 couple.Broadcaster.Subscribe("isActive", (state, prev) =>
-                couple.Receiver.ChangeObjectState("isActive", true)));
+                couple.Receiver.ChangeObjectState("isActive", state)));
         }
     }
 }
