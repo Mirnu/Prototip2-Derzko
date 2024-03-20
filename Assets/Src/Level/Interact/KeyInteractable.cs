@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class KeyInteractable : Interactable
 {
+    public override Dictionary<string, object> State { get; protected set; } = new Dictionary<string, object>()
+    {
+        {"isActive", false}
+    };
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.TryGetComponent(out Character character)) {
@@ -18,6 +22,7 @@ public class KeyInteractable : Interactable
 
     private void KeyDown(KeyCode key) {
         if (key != KeyCode.E) return;
-        onInteractAction?.Invoke();
+        Debug.Log(!(bool)State["isActive"]);
+        ChangeObjectState("isActive", !(bool)State["isActive"]);
     }
 }
