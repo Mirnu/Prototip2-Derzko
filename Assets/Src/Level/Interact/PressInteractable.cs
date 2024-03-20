@@ -11,9 +11,13 @@ public class PressInteractable : Interactable
         {"isActive", false}
     };
 
+    private int _colliders = 0;
+
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.TryGetComponent(out Character character) || other.TryGetComponent(out Crate crate)) {
+            _colliders++;
             ChangeObjectState("isActive", true);
+            
         }
     }
 
@@ -21,7 +25,9 @@ public class PressInteractable : Interactable
     {
         if (collision.TryGetComponent(out Character character) || collision.TryGetComponent(out Crate crate))
         {
-            ChangeObjectState("isActive", false);
+            _colliders--;
+            if (_colliders == 0) 
+                ChangeObjectState("isActive", false);
         }
     }
 }
