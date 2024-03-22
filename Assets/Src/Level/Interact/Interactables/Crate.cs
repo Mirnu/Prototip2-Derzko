@@ -5,6 +5,7 @@ using UnityEngine;
 public class Crate : KeyInteractable, Holdable {
 
     private SpriteRenderer _spriteRenderer;
+    CharacterStateMachine characterStateMachine => player.Character._characterStateMachine;
 
     GameObject Holdable.ItemPrefab { get => gameObject; }
 
@@ -18,10 +19,13 @@ public class Crate : KeyInteractable, Holdable {
 
     private void Start() {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        onInteractAction += delegate { 
+
+        Subscribe("isActive", (newState, _) => {
+            if (!(bool)newState) return;
             player.PickUp(this);
-        };
+        });
     }
+
 
     void log() {
         Debug.Log("Interacted /w: " + name);

@@ -7,14 +7,14 @@ public class Player
     private Holdable currentItem;
     private bool isPrinting = false;
     private IHandler Handler;
-    private Character _character;
+    public Character Character;
     private AsyncProcessor _async;
 
     [Inject]
     public void Construct(IHandler handler, Character character, AsyncProcessor async)
     {
         Handler = handler;
-        _character = character;
+        Character = character;
         _async = async;
     }
 
@@ -26,14 +26,16 @@ public class Player
     public void PickUp(Holdable item) {
         if (currentItem != null) return;
         Handler.PressedKeyDown += KeyDown;
+        Character._characterStateMachine.ChangeState(Character._characterStateMachine.DraggingState);
         item.OnPickedUp();
-        item.ItemPrefab.transform.SetParent(_character.heldItemPivot);
+        item.ItemPrefab.transform.SetParent(Character.heldItemPivot);
         item.ItemPrefab.transform.localPosition = new Vector3(0, 0, 0);
         currentItem = item;
     }
 
     public void PlaceDown() {
         Handler.PressedKeyDown -= KeyDown;
+        Character._characterStateMachine.ChangeState(Character._characterStateMachine.IdleState);
         currentItem.OnPlacedDown();
         currentItem.ItemPrefab.transform.SetParent(null);
         currentItem = null;

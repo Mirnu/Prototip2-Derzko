@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 public class Level : LevelState
 {
@@ -17,11 +16,11 @@ public class Level : LevelState
     {
         foreach (var couple in coupleInteractables)
         {
-            _stateObjects.Insert(couple.Broadcaster.ID, couple.Broadcaster);
-            _stateObjects.Insert(couple.Receiver.ID, couple.Receiver);
+            _stateObjects.Add(couple.Broadcaster);
+            _stateObjects.Add(couple.Receiver);
             maid.GiveTask(
                 couple.Broadcaster.Subscribe("isActive", (state, prev) =>
-                couple.Receiver.ChangeObjectState("isActive", true)));
+                couple.Receiver.ChangeObjectState("isActive", state)));
         }
     }
 }

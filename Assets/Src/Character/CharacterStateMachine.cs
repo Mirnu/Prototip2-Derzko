@@ -16,6 +16,7 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
     public JumpState JumpState { get; private set; }
     public DuckState DuckState {  get; private set; }
     public StairState StairState { get; private set; }
+    public DraggingState DraggingState { get; private set; }
     public RopeState RopeState {get; private set; }
 
     public new IHandler Handler { get; private set; }
@@ -31,7 +32,6 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
         JumpState = new JumpState(this);
         DuckState = new DuckState(this);
         StairState = new StairState(this);
-        RopeState = new RopeState(this);
     }
 
     public void Initialize() => Initialize(IdleState);

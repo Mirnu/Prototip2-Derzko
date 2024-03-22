@@ -52,19 +52,26 @@ public class LevelState : MonoBehaviour
         Repository.LoadState();
         bool isGet = Repository.TryGetData(out LevelData data);
         if (!isGet) return;
+        spawnPlayer(data);
         foreach (var state in data.stateObjects)
         {
             StateObject stateObject = _stateObjects.Find(x => x.ID == state.Key);
-            if (stateObject == null) throw new Exception("StateObject is null");
+            if (stateObject == null) Debug.Log("StateObject is null");
             foreach (var _state in state.Value)
             {
-                stateObject.ChangeObjectState(_state.Key, _state.Value); 
+                stateObject?.ChangeObjectState(_state.Key, _state.Value); 
             }
         }
-        _character.transform.position = data.spawnPoint.y != 0 && data.spawnPoint.x != 0  ? 
-            new Vector2 (data.spawnPoint.x, data.spawnPoint.y) : 
-            spawnPoint.position;
+        
+            
         SaveCurrentLevelState();
+    }
+
+    private void spawnPlayer(LevelData data)
+    {
+        _character.transform.position = data.spawnPoint.y != 0 && data.spawnPoint.x != 0 ?
+            new Vector2(data.spawnPoint.x, data.spawnPoint.y) :
+            spawnPoint.position;
     }
 
     private void SaveCurrentLevelState()
