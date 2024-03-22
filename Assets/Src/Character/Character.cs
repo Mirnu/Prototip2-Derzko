@@ -13,9 +13,10 @@ public class Character : MonoBehaviour
 
     public Rigidbody2D Rigidbody { get; private set; }
     public event Action<Collision2D> CollisionEnter;
+    public event Action<Collision2D> CollisionExit;
 
     public Transform heldItemPivot;
-    public TextMeshProUGUI text;
+    public HingeJoint2D PlayerRopeHingeJoint;
 
     public BoxCollider2D Collider { get; private set; }
     private IHandler _handler;
@@ -27,6 +28,11 @@ public class Character : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         CollisionEnter?.Invoke(collision);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        CollisionExit?.Invoke(collision);
     }
 
     [Inject]
@@ -41,6 +47,7 @@ public class Character : MonoBehaviour
     {
         Collider = GetComponent<BoxCollider2D>();
         Rigidbody = GetComponent<Rigidbody2D>();
+        PlayerRopeHingeJoint = GetComponent<HingeJoint2D>();
         _handler.PressedKey += KeyDown;
     }
 
@@ -51,8 +58,9 @@ public class Character : MonoBehaviour
 
     private void KeyDown(KeyCode keyCode)
     {
-        if (Input.GetAxisRaw("Vertical") != 0)
-            _characterStateMachine.ChangeState(_characterStateMachine.StairState);
+        if (Input.GetAxisRaw("Vertical") != 0){
+            if(!_characterStateMachine.ChangeState(_characterStateMachine.StairState)) _characterStateMachine.ChangeState(_characterStateMachine.RopeState);
+        }
         if (keyCode == KeyCode.Space)
         {
             _characterStateMachine.ChangeState(_characterStateMachine.JumpState);

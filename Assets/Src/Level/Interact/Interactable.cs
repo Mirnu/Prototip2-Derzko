@@ -7,8 +7,6 @@ public abstract class Interactable : StateObject
 {
 
     public Action onInteractAction;
-    public Action onInteractStart;
-    public Action onInteractEnd;
 
     public IHandler Handler;
 
@@ -20,15 +18,5 @@ public abstract class Interactable : StateObject
     {
         Handler = handler;
         this.player = player;
-    }
-
-    public void InteractionStart()
-    {
-        onInteractStart?.Invoke();
-    }
-
-    public void InteractEnd()
-    {
-        onInteractEnd?.Invoke();
     }
 }
