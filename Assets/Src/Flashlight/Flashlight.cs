@@ -45,8 +45,7 @@ public class Flashlight : MonoBehaviour
     private void ExecuteFlashlightFunctions() {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Light.pointLightOuterRadius);
         foreach (var col in colliders){
-            IOnFlashlightAction func;
-            if (col.gameObject.TryGetComponent<IOnFlashlightAction>(out func)){
+            if (col.gameObject.TryGetComponent(out IOnFlashlightAction func)){
                 func?.OnFlashlightAction.Invoke();
             }
         }
