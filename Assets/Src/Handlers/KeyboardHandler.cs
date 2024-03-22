@@ -34,9 +34,7 @@ public class KeyboardHandler : IHandler, ITickable
 
     private void handleUpKeys(KeyCode keyCode)
     {
-        if (Input.GetKeyUp(keyCode))
-            PressedKeyUp?.Invoke(keyCode);
-        
+        if (Input.GetKeyUp(keyCode)) PressedKeyUp?.Invoke(keyCode);
     }
 
     private void handleDownKeys(KeyCode keyCode)

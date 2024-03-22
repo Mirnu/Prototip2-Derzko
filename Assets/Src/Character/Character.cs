@@ -17,6 +17,8 @@ public class Character : MonoBehaviour
 
     public Transform heldItemPivot;
     public HingeJoint2D PlayerRopeHingeJoint;
+    public HingeJoint2D ropeBit;
+
 
     public BoxCollider2D Collider { get; private set; }
     private IHandler _handler;
@@ -59,7 +61,12 @@ public class Character : MonoBehaviour
     private void KeyDown(KeyCode keyCode)
     {
         if (Input.GetAxisRaw("Vertical") != 0){
-            if(!_characterStateMachine.ChangeState(_characterStateMachine.StairState)) _characterStateMachine.ChangeState(_characterStateMachine.RopeState);
+            if(ropeBit != null) { 
+                _characterStateMachine.ChangeState(_characterStateMachine.RopeState);
+                PlayerRopeHingeJoint.connectedBody = ropeBit.GetComponent<Rigidbody2D>();
+            } else {
+                _characterStateMachine.ChangeState(_characterStateMachine.StairState);
+            }
         }
         if (keyCode == KeyCode.Space)
         {
