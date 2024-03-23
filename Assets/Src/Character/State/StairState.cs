@@ -7,7 +7,7 @@ public class StairState : MovementState
     public bool canRise = false;
     private float _stairSpeed = 2f;
 
-    public StairState(CharacterStateMachine characterStateMachine) : base(characterStateMachine) 
+    public StairState(CharacterStateMachine characterStateMachine) : base(characterStateMachine)
     {
         PossibleTransitions.Add(CharacterStateMachine.IdleState);
     }
@@ -31,6 +31,7 @@ public class StairState : MovementState
 
     private void KeyPressed(KeyCode keyCode)
     {
+        if (keyCode != KeyCode.W && keyCode != KeyCode.S) return;
         Vector3 offset = Vector2.up * Input.GetAxisRaw("Vertical") * _stairSpeed * Time.deltaTime;
         Character.transform.Translate(offset);
 

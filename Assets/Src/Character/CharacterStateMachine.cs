@@ -32,6 +32,7 @@ public class CharacterStateMachine : StateMachine, ITickable, IInitializable
         JumpState = new JumpState(this);
         DuckState = new DuckState(this);
         RopeState = new RopeState(this);
+        DraggingState = new DraggingState(this);
         StairState = new StairState(this);
     }
 
