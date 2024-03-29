@@ -7,7 +7,7 @@ using Zenject;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Character : MonoBehaviour
+public class Character :  Damagable
 {
     public CharacterStateMachine _characterStateMachine { get; private set; }
 
@@ -16,17 +16,17 @@ public class Character : MonoBehaviour
     public event Action<Collision2D> CollisionExit;
 
     public Transform heldItemPivot;
+
     public HingeJoint2D PlayerRopeHingeJoint;
     public HingeJoint2D ropeBit;
 
-
     public BoxCollider2D Collider { get; private set; }
+
     private IHandler _handler;
     
     public RaycastHit2D hit;
-
     public float Speed = 1.5f;
-
+ 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         CollisionEnter?.Invoke(collision);
@@ -51,6 +51,13 @@ public class Character : MonoBehaviour
         Rigidbody = GetComponent<Rigidbody2D>();
         PlayerRopeHingeJoint = GetComponent<HingeJoint2D>();
         _handler.PressedKey += KeyDown;
+        OnKilled += delegate{Debug.Log("nigga: ");};
+        OnDamaged += delegate{Debug.Log("ni: " + CurrentHealth);};
+    }
+
+    public override void damage(float amount) {
+        //custom logic here
+        base.damage(amount);
     }
 
     private void OnDestroy()

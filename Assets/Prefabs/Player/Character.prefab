@@ -308,8 +308,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8dd335490324fca9e9ca74f50fde64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHealth: 100
+  CurrentHealth: 0
   heldItemPivot: {fileID: 8793680885035530506}
   PlayerRopeHingeJoint: {fileID: 6935516174698357215}
+  ropeBit: {fileID: 0}
   Speed: 1.5
 --- !u!233 &6935516174698357215
 HingeJoint2D:

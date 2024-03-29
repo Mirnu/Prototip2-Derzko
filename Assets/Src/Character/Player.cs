@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Zenject;
@@ -5,7 +6,6 @@ using Zenject;
 public class Player
 {
     private Holdable currentItem;
-    private bool isPrinting = false;
     private IHandler Handler;
     public Character Character;
     private AsyncProcessor _async;
