@@ -7,22 +7,20 @@ public class DamageZone : MonoBehaviour {
     [SerializeField] private float WaitTimeBetweenDamage = 10f;
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(!other.TryGetComponent(out Damagable d)) return;
+        if(!other.TryGetComponent(out BaseCharacter d)) return;
         Debug.Log("ender: " + d);
-        StartCoroutine(applyDamage(d));
+        StartCoroutine(applyDamage(d.Humanoid));
     }
 
     private void OnTriggerExit2D(Collider2D other) {
         StopAllCoroutines();
     }
 
-    IEnumerator applyDamage(Damagable damageable) {
-        if(damageable != null) {
-            damageable.damage(DamageAmount);
+    IEnumerator applyDamage(Humanoid humanoid) {
+        while (true)
+        {
+            humanoid.TakeDamage(DamageAmount);
             yield return new WaitForSeconds(WaitTimeBetweenDamage);
-            StartCoroutine(applyDamage(damageable));
-        } else {
-            yield return null;
         }
     }
 }

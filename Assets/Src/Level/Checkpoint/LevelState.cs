@@ -20,6 +20,7 @@ public class LevelState : MonoBehaviour
     public void Construct(Character character)
     {
         _character = character;
+        _character.Humanoid.Died += RecoverLevel;
     }
 
     protected void StartMonitor()
@@ -53,18 +54,27 @@ public class LevelState : MonoBehaviour
         bool isGet = Repository.TryGetData(out LevelData data);
         if (!isGet) return;
         spawnPlayer(data);
-        foreach (var state in data.stateObjects)
+        LoadLevel(data.stateObjects);   
+        SaveCurrentLevelState();
+    }
+
+    public void RecoverLevel() 
+    { 
+        LoadLevel(_savedStateObjects); 
+        _character.transform.position = spawnPoint.position;
+    }
+
+    private void LoadLevel(Dictionary<int, Dictionary<string, object>> states)
+    {
+        foreach (var state in states)
         {
             StateObject stateObject = _stateObjects.Find(x => x.ID == state.Key);
             if (stateObject == null) Debug.Log("StateObject is null");
             foreach (var _state in state.Value)
             {
-                stateObject?.ChangeObjectState(_state.Key, _state.Value); 
+                stateObject?.ChangeObjectState(_state.Key, _state.Value);
             }
         }
-        
-            
-        SaveCurrentLevelState();
     }
 
     private void spawnPlayer(LevelData data)
@@ -104,6 +114,11 @@ public class LevelState : MonoBehaviour
         };
         Repository.SetData(levelData);
         Repository.SaveState();
+    }
+
+    private void OnDestroy()
+    {
+        _character.Humanoid.Died -= RecoverLevel;
     }
 }
 

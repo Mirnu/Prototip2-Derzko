@@ -7,7 +7,7 @@ using Zenject;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Character :  Damagable
+public class Character :  BaseCharacter
 {
     public CharacterStateMachine _characterStateMachine { get; private set; }
 
@@ -51,18 +51,15 @@ public class Character :  Damagable
         Rigidbody = GetComponent<Rigidbody2D>();
         PlayerRopeHingeJoint = GetComponent<HingeJoint2D>();
         _handler.PressedKey += KeyDown;
-        OnKilled += delegate{Debug.Log("nigga: ");};
-        OnDamaged += delegate{Debug.Log("ni: " + CurrentHealth);};
-    }
-
-    public override void damage(float amount) {
-        //custom logic here
-        base.damage(amount);
+        Humanoid.Died += delegate{Debug.Log("nigga: ");};
+        Humanoid.HealthChanged += delegate{Debug.Log("ni: " + Humanoid.Health);};
     }
 
     private void OnDestroy()
     {
         _handler.PressedKey -= KeyDown;
+        Humanoid.Died -= delegate { Debug.Log("nigga: "); };
+        Humanoid.HealthChanged -= delegate { Debug.Log("ni: " + Humanoid.Health); };
     }
 
     private void KeyDown(KeyCode keyCode)
