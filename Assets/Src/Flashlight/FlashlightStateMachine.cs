@@ -13,7 +13,7 @@ public class FlashlightStateMachine : StateMachine, ITickable, IInitializable
     public Flashlight Flashlight { get; private set; }
 
     public FlashlightState LastState { get; private set; }
-    private FlashlightState CurrentState { get; set; }
+    public FlashlightState CurrentState { get; private set; }
 
     public new IHandler Handler { get; private set; }
     public FlashlightStateMachine(Flashlight flashlight, IHandler handler)

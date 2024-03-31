@@ -12,6 +12,7 @@ public class UnabledState : FlashlightState
     public override bool Enter()
     {
         Flashlight.Light.intensity = 0;
+        Flashlight.ColliderEnabled = false;
         return true;
     }
 }

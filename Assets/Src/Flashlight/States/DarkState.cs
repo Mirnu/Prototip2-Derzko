@@ -15,6 +15,7 @@ public class DarkState : FlashlightState
         Flashlight.Light.intensity = 1;
         Flashlight.Light.color = new Color(0, 0, 0);
         Handler.PressedKeyDown += KeyDown;
+        Flashlight.ColliderEnabled = true;
         return true;
     }
 

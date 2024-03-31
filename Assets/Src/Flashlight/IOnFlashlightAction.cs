@@ -3,5 +3,5 @@ using UnityEngine;
 
 interface IOnFlashlightAction
 {
-    Action OnFlashlightAction { get; protected set; }
+    Action OnFlashlightAction { get; set; }
 }

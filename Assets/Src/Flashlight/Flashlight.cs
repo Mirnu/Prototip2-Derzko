@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
+using Unity.VisualScripting;
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -15,18 +16,24 @@ public class Flashlight : MonoBehaviour
 
     public bool isActive = true;
 
+    private CircleCollider2D _collider;
+    public bool ColliderEnabled { get => _collider.enabled; set { _collider.enabled = value; } }
+
     [Inject]
     public void Construct(IHandler handler)
     {
         _handler = handler;
         Light = GetComponent<Light2D>();
         _flashlightStateMachine = new FlashlightStateMachine(this, _handler);
+        _collider = gameObject.AddComponent<CircleCollider2D>();
+        _collider.radius = Light.pointLightOuterRadius*2;
+        _collider.isTrigger = true;
+        _collider.enabled = false;
         _flashlightStateMachine.Initialize();
     }
 
     private void Awake()
     {
-        Debug.Log(_handler);
         _handler.PressedKeyDown += KeyDown;
     }
 
@@ -42,18 +49,34 @@ public class Flashlight : MonoBehaviour
         isWorking = !isWorking;
     }
 
-    private void ExecuteFlashlightFunctions() {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, Light.pointLightOuterRadius);
-        foreach (var col in colliders){
-            IOnFlashlightAction func;
-            if (col.gameObject.TryGetComponent<IOnFlashlightAction>(out func)){
-                func?.OnFlashlightAction.Invoke();
-            }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out IOnFlashlightAction func))
+        {
+            func?.OnFlashlightAction.Invoke();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out HiddenPlatform hiddenPlatform))
+        {
+            if (_flashlightStateMachine.CurrentState.ToString() == hiddenPlatform.PlatfomShowState)
+                hiddenPlatform?.Show();
+            else
+                hiddenPlatform?.Hide();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out HiddenPlatform hiddenPlatform))
+        {
+            hiddenPlatform?.Hide();
         }
     }
 
     private void Update() {
-        ExecuteFlashlightFunctions();
         _flashlightStateMachine.Tick();
     }
 
